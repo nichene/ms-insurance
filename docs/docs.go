@@ -16,8 +16,44 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/management/product": {
-            "post": {
-                "description": "Create integrator",
+            "get": {
+                "description": "FindByName product",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "FindByName product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/product.Product"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "put": {
+                "description": "UpdateBYID product",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,9 +61,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Integrator"
+                    "Product"
                 ],
-                "summary": "Create integrator",
+                "summary": "UpdateByID product",
                 "parameters": [
                     {
                         "description": "Body",
@@ -40,17 +76,52 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/product.Product"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create product",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "Create product",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/product.Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/product.Product"
                         }
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -69,7 +140,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "base_price": {
-                    "type": "integer"
+                    "type": "number"
                 },
                 "category": {
                     "type": "string"
@@ -83,8 +154,8 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "tariffedPrice": {
-                    "type": "integer"
+                "tariffed_price": {
+                    "type": "number"
                 },
                 "updated_at": {
                     "type": "string"

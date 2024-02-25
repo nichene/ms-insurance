@@ -20,5 +20,5 @@ func NewService(
 type ProductsRepository interface {
 	Create(ctx context.Context, produtc *Product) (*Product, error)
 	FindByName(ctx context.Context, name string) (*Product, error)
-	Update(ctx context.Context, produtc Product) (*Product, error)
+	Update(ctx context.Context, produtc *Product) (*Product, error)
 }

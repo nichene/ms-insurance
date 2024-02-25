@@ -27,15 +27,14 @@ func NewProductHandler(productService product.Service) ProductHandler {
 }
 
 // Create godoc
-// @Summary      Create integrator
-// @Description  Create integrator
-// @Tags         Integrator
+// @Summary      Create product
+// @Description  Create product
+// @Tags         Product
 // @Accept       json
 // @Produce      json
 // @Param        request body product.Product true "Body"
-// @Success      201 {object} product.Product
+// @Success      200 {object} product.Product
 // @Failure      400
-// @Failure      422
 // @Failure      500
 // @Router       /api/management/product [post]
 func (h *productHandler) Create(ctx *fiber.Ctx) error {
@@ -53,7 +52,7 @@ func (h *productHandler) Create(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusBadRequest).JSON("Invalid create product params")
 	}
 
-	product, err := h.productService.Create(ctx.Context(), *params)
+	product, err := h.productService.Create(ctx.Context(), params)
 	if err != nil {
 		log.Default().Print("API - Error creating person")
 		return ctx.Status(http.StatusInternalServerError).SendString(err.Error())
@@ -62,12 +61,22 @@ func (h *productHandler) Create(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(product)
 }
 
+// Create godoc
+// @Summary      FindByName product
+// @Description  FindByName product
+// @Tags         Product
+// @Produce      json
+// @Param        name   query      string  true  "name"
+// @Success      200 {object} product.Product
+// @Failure      400
+// @Failure      404
+// @Failure      500
+// @Router       /api/management/product [get]
 func (h *productHandler) FindByName(ctx *fiber.Ctx) error {
-	var name string
-	err := ctx.QueryParser(&name)
-	if err != nil {
-		log.Default().Print("API - Unable to parse query param", err.Error())
-		return ctx.Status(http.StatusBadRequest).JSON("Invalid query params")
+	name := ctx.Query("name")
+	if name == "" {
+		log.Default().Print("API - Unable to get query param name")
+		return ctx.Status(http.StatusBadRequest).JSON("Invalid query param : name")
 	}
 
 	product, err := h.productService.FindByName(ctx.Context(), name)
@@ -79,7 +88,37 @@ func (h *productHandler) FindByName(ctx *fiber.Ctx) error {
 	return ctx.Status(http.StatusOK).JSON(product)
 }
 
+// Create godoc
+// @Summary      UpdateByID product
+// @Description  UpdateBYID product
+// @Tags         Product
+// @Accept       json
+// @Produce      json
+// @Param        request body product.Product true "Body"
+// @Success      200 {object} product.Product
+// @Failure      404
+// @Failure      500
+// @Router       /api/management/product [put]
 func (h *productHandler) Update(ctx *fiber.Ctx) error {
-	// TODO
-	return ctx.Status(http.StatusOK).JSON("product")
+	params := &product.Product{}
+	err := ctx.BodyParser(params)
+	if err != nil {
+		log.Default().Print("API - Unable to parse request body", err.Error())
+		return ctx.Status(http.StatusBadRequest).JSON("Unable to parse request body")
+	}
+
+	validate := validator.New()
+	err = validate.Struct(params)
+	if err != nil {
+		log.Default().Print("API - Invalid update product params")
+		return ctx.Status(http.StatusBadRequest).JSON("Invalid update product params")
+	}
+
+	product, err := h.productService.Update(ctx.Context(), params)
+	if err != nil {
+		log.Default().Print("API - Error creating person")
+		return ctx.Status(http.StatusInternalServerError).SendString(err.Error())
+	}
+
+	return ctx.Status(http.StatusOK).JSON(product)
 }

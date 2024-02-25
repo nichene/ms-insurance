@@ -10,5 +10,5 @@ import (
 func ProductRoutes(route *fiber.App, handler handlers.ProductHandler) {
 	route.Post("/product", handler.Create)
 	route.Get("/product", handler.FindByName)
-	route.Patch("/product", handler.Update)
+	route.Put("/product", handler.Update)
 }
