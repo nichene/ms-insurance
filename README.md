@@ -16,7 +16,7 @@ API service developed for challenge.
 
 ## API
 
-To run the server locally you can type `make run-api`.
+To run the server locally you can type `make api`.
 
 ## Swagger
 
