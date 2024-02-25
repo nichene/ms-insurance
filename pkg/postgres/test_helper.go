@@ -24,7 +24,7 @@ type TestDbConfig struct {
 
 var (
 	_, b, _, _     = runtime.Caller(0)
-	projectRootDir = filepath.Join(filepath.Dir(b), "../..")
+	ProjectRootDir = filepath.Join(filepath.Dir(b), "../..")
 )
 
 func NewTestDb(testRef *testing.T, ctx context.Context, cfg *config.Config) *TestDbConfig {
@@ -37,6 +37,7 @@ func NewTestDb(testRef *testing.T, ctx context.Context, cfg *config.Config) *Tes
 	if err != nil {
 		testRef.Fatal(err)
 	}
+
 	cfg.DBHost, err = pgTestContainer.Host(ctx)
 	if err != nil {
 		testRef.Fatal(err)
@@ -48,7 +49,7 @@ func NewTestDb(testRef *testing.T, ctx context.Context, cfg *config.Config) *Tes
 	dbConn, err := conn.DB()
 	assert.Nil(testRef, err)
 
-	migrationsDir := filepath.Join(projectRootDir, "/migrations")
+	migrationsDir := filepath.Join(ProjectRootDir, "/migrations")
 
 	return &TestDbConfig{testRef, &ctx, cfg, conn, dbConn, migrationsDir}
 }

@@ -11,10 +11,17 @@ type Config struct {
 	DBPass string
 }
 
-func LoadEnvVars() *Config {
+func LoadEnvVars(opts ...Options) *Config {
+	options := configOptions{}
+
+	for _, o := range opts {
+		o.apply(&options)
+	}
+
 	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
 	viper.AddConfigPath("./")
+	viper.AddConfigPath(options.configPath)
 	viper.AutomaticEnv()
 	_ = viper.ReadInConfig()
 
@@ -29,5 +36,22 @@ func LoadEnvVars() *Config {
 		DBUser: viper.GetString("DB_USER"),
 		DBPass: viper.GetString("DB_PASS"),
 	}
+}
 
+type configOptions struct {
+	configPath string
+}
+
+type Options interface {
+	apply(*configOptions)
+}
+
+type configPathOption string
+
+func (c configPathOption) apply(opts *configOptions) {
+	opts.configPath = string(c)
+}
+
+func WithConfigPath(configPath string) Options {
+	return configPathOption(configPath)
 }
