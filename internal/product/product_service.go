@@ -11,7 +11,7 @@ func (s *Service) Create(ctx context.Context, intent *Product) (product *Product
 	if !intent.containsIdentifiableCategory() {
 		msg := fmt.Sprintf("Unable to create product with category: %s", intent.Category)
 		log.Default().Print(msg)
-		return product, errors.New(msg)
+		return &Product{}, errors.New(msg)
 	}
 
 	intent.calculateInsuranceProductTariff()
@@ -27,7 +27,7 @@ func (s *Service) Update(ctx context.Context, intent *Product) (product *Product
 	if !intent.containsIdentifiableCategory() {
 		msg := fmt.Sprintf("Unable to update product with category: %s", intent.Category)
 		log.Default().Print(msg)
-		return product, errors.New(msg)
+		return &Product{}, errors.New(msg)
 	}
 
 	intent.calculateInsuranceProductTariff()
