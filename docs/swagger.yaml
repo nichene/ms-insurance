@@ -1,0 +1,54 @@
+definitions:
+  product.Product:
+    properties:
+      base_price:
+        type: integer
+      category:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      tariffedPrice:
+        type: integer
+      updated_at:
+        type: string
+    required:
+    - base_price
+    - category
+    - name
+    type: object
+info:
+  contact: {}
+paths:
+  /api/management/product:
+    post:
+      consumes:
+      - application/json
+      description: Create integrator
+      parameters:
+      - description: Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/product.Product'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/product.Product'
+        "400":
+          description: Bad Request
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      summary: Create integrator
+      tags:
+      - Integrator
+swagger: "2.0"
