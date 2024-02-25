@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/management/product": {
+        "/product": {
             "get": {
                 "description": "FindByName product",
                 "produces": [

@@ -23,7 +23,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/management/product:
+  /product:
     get:
       description: FindByName product
       parameters:

@@ -36,7 +36,7 @@ func NewProductHandler(productService product.Service) ProductHandler {
 // @Success      200 {object} product.Product
 // @Failure      400
 // @Failure      500
-// @Router       /api/management/product [post]
+// @Router       /product [post]
 func (h *productHandler) Create(ctx *fiber.Ctx) error {
 	params := &product.Product{}
 	err := ctx.BodyParser(params)
@@ -71,7 +71,7 @@ func (h *productHandler) Create(ctx *fiber.Ctx) error {
 // @Failure      400
 // @Failure      404
 // @Failure      500
-// @Router       /api/management/product [get]
+// @Router       /product [get]
 func (h *productHandler) FindByName(ctx *fiber.Ctx) error {
 	name := ctx.Query("name")
 	if name == "" {
@@ -98,7 +98,7 @@ func (h *productHandler) FindByName(ctx *fiber.Ctx) error {
 // @Success      200 {object} product.Product
 // @Failure      404
 // @Failure      500
-// @Router       /api/management/product [put]
+// @Router       /product [put]
 func (h *productHandler) Update(ctx *fiber.Ctx) error {
 	params := &product.Product{}
 	err := ctx.BodyParser(params)
