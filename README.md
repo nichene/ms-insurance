@@ -1,4 +1,4 @@
-## Stone-challenge project
+## MS insurance
 
 API service developed for challenge.
 
