@@ -8,7 +8,7 @@ import (
 	"ms-insurance/internal/http"
 	"ms-insurance/internal/product"
 	postgresRepo "ms-insurance/internal/product/postgres"
-	postgres "ms-insurance/pkg"
+	postgres "ms-insurance/pkg/postgres"
 	"os/signal"
 	"syscall"
 )
